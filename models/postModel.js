@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import moment from "moment";
 
 const postSchema = new mongoose.Schema({
   name: {
@@ -13,10 +14,14 @@ const postSchema = new mongoose.Schema({
   pictureURL: {
     type: String,
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
   comments: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Comment',
+      ref: "Comment",
     },
   ],
   likeCount: [
@@ -25,20 +30,23 @@ const postSchema = new mongoose.Schema({
     },
   ],
   createAt: {
-    type: Date,
-    default: new Date(),
+    type: String,
+    default: moment(new Date(Date.now())).format("LLL"),
   },
 });
 
 // Query middleware
 postSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'comments',
-    select: '-__v',
+    path: "comments",
+    select: "-__v",
+  }).populate({
+    path: "user",
+    select: "-posts name",
   });
   next();
 });
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 export default Post;

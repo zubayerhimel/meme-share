@@ -1,20 +1,20 @@
-import catchAsync from '../util/catchAsync';
-import AppError from '../util/appError';
-import User from '../models/userModel';
+import catchAsync from "../util/catchAsync";
+import AppError from "../util/appError";
+import User from "../models/userModel";
 
 const sendData = (res, data) => {
   res.status(200).json({
-    status: 'ok',
+    status: "ok",
     data,
   });
 };
 
 const getProfile = catchAsync(async (req, res, next) => {
-  res.setHeader('Content-type', 'application/json');
+  res.setHeader("Content-type", "application/json");
 
   const userInfo = await User.findById(req.params.id);
   if (!userInfo) {
-    return next(new AppError('profile not found.', 400));
+    return next(new AppError("profile not found.", 400));
   }
 
   const { posts } = userInfo;
@@ -26,6 +26,4 @@ const getProfile = catchAsync(async (req, res, next) => {
   return sendData(res, userInfo);
 });
 
-export {
-  getProfile,
-}
+export { getProfile };
