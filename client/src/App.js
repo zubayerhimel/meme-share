@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Registration from "./pages/Registration";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
+import SingleMeme from "./pages/SingleMeme";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 
@@ -16,6 +17,7 @@ const App = () => {
           <Route exact path="/registration" component={Registration} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/meme/:id" component={SingleMeme} />
         </Switch>
       </div>
     </Router>

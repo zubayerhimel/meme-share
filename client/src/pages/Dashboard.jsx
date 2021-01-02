@@ -81,10 +81,10 @@ const Dashboard = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const postInfo = {
-      memeName,
-      description,
-      imageId,
-      image,
+      name: memeName,
+      description: description,
+      pictureId: imageId,
+      pictureURL: image,
     };
     // console.log(postInfo);
     // console.log(userId);

@@ -1,7 +1,6 @@
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,11 +25,7 @@ function MemeCard({ post }) {
         title={post.user.name}
         subheader={post.createAt}
       />
-      <CardMedia
-        className={classes.media}
-        image="https://cdn.pixabay.com/photo/2020/12/25/09/46/dog-5858985_960_720.jpg"
-        title="Paella dish"
-      />
+      <CardMedia className={classes.media} image={post.pictureURL} title="Paella dish" />
       <CardContent>
         <Typography variant="h6" color="textSecondary">
           {post.name}
