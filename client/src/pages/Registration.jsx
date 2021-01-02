@@ -48,6 +48,8 @@ export default function SignUp() {
     confirm_password: "",
   });
   const { name, email, password, confirm_password } = formData;
+
+  // methods
   const handleOnChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = (e) => {
     e.preventDefault();

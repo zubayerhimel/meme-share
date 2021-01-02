@@ -4,18 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
-  pt3: {
-    paddingTop: theme.spacing(3),
-  },
-  center: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  btn: {
-    textTransform: "none",
-    fontFamily: "Nunito",
-  },
   image: {
     height: "auto",
     width: 600,
@@ -53,7 +41,7 @@ function SingleMeme() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="h1" color="textSecondary">
+          <Typography variant="h3" color="textSecondary">
             {info.name}
           </Typography>
           <Typography variant="body1">{info.description}</Typography>

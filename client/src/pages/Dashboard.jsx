@@ -34,9 +34,11 @@ const Dashboard = () => {
     memeName: "",
     description: "",
   });
-  const { memeName, description } = memeInfo;
   const [userId, setUserId] = useState("");
 
+  const { memeName, description } = memeInfo;
+
+  // methods
   const handleOnChange = (e) => {
     setMemeInfo({ ...memeInfo, [e.target.name]: e.target.value });
   };

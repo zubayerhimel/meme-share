@@ -63,6 +63,8 @@ export default function SignIn() {
         })
         .then((res) => {
           console.log(res);
+          const userId = res.data.user._id;
+          localStorage.setItem("userId", userId);
           history.push("/dashboard");
         })
         .catch((err) => {
