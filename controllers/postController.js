@@ -33,7 +33,7 @@ const createPost = catchAsync(async (req, res, next) => {
   const postInfo = await Post.create(body);
 
   if (!postInfo) {
-    return sendMessage(res, 400, "somthing wrong.");
+    return sendMessage(res, 400, "something wrong.");
   }
 
   // create relation between post and user

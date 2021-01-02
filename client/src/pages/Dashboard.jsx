@@ -1,6 +1,7 @@
-import { Button, Container, Grid, TextareaAutosize, TextField } from "@material-ui/core";
+import { Button, Container, Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   pt3: {
@@ -28,12 +29,25 @@ const Dashboard = () => {
   const [image, setImage] = useState(
     "https://img.pngio.com/index-of-htdocs-content-plugins-slider-images-image-icon-png-800_600.png"
   );
-  const [imageAsset, setImageAsset] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [memeName, setMemeName] = useState("");
-  const [memeDescription, setMemeDescription] = useState("");
+  const [imageId, setImageId] = useState("");
+  const [memeInfo, setMemeInfo] = useState({
+    memeName: "",
+    description: "",
+  });
+  const { memeName, description } = memeInfo;
+  const [userId, setUserId] = useState("");
+
+  const handleOnChange = (e) => {
+    setMemeInfo({ ...memeInfo, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    const user_id = localStorage.getItem("userId");
+    setUserId(user_id);
+  }, []);
 
   // methods
+
   const imageHandler = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -42,11 +56,9 @@ const Dashboard = () => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-    // console.log(reader.readAsDataURL(e.target.files[0]));
     console.log(e.target.files[0]);
-  };
 
-  const imageUpload = () => {
+    // publish image
     const { files } = document.querySelector('input[type="file"]');
     const formData = new FormData();
     formData.append("file", files[0]);
@@ -58,7 +70,29 @@ const Dashboard = () => {
 
     return fetch("https://api.Cloudinary.com/v1_1/dck5ccwjv/image/upload", options)
       .then((res) => res.json())
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setImage(res.url);
+        setImageId(res.asset_id);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const postInfo = {
+      memeName,
+      description,
+      imageId,
+      image,
+    };
+    // console.log(postInfo);
+    // console.log(userId);
+    axios
+      .post(`/api/posts/${userId}`, postInfo)
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -66,13 +100,26 @@ const Dashboard = () => {
     <div>
       <Container maxWidth="lg" className={classes.pt3}>
         <h1 className={classes.center}>Share a new Meme</h1>
-        <form>
+        <form noValidate onSubmit={(e) => handleSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField label="Meme Name" variant="outlined" fullWidth></TextField>
+              <TextField
+                label="Meme Name"
+                variant="outlined"
+                name="memeName"
+                value={memeName}
+                onChange={(e) => handleOnChange(e)}
+                fullWidth></TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField multiline label="Description" variant="outlined" fullWidth></TextField>
+              <TextField
+                multiline
+                label="Description"
+                name="description"
+                value={description}
+                onChange={(e) => handleOnChange(e)}
+                variant="outlined"
+                fullWidth></TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
               <img src={image} alt="image" className={classes.image} />
@@ -82,7 +129,7 @@ const Dashboard = () => {
             </Grid>
           </Grid>
           <div className={classes.center}>
-            <Button variant="contained" color="primary" className={classes.btn} onClick={imageUpload}>
+            <Button type="submit" variant="contained" color="primary" className={classes.btn}>
               Publish Meme
             </Button>
           </div>
