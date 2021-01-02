@@ -1,10 +1,10 @@
-import express from 'express';
-import {
-  getProfile,
-} from '../controllers/profileController';
+import express from "express";
+import { getProfile } from "../controllers/profileController";
 
 const router = express.Router();
 
-router.route('/:id').get(getProfile);
-
+router.route("/:id").get(getProfile);
+router.post("/forgot", forgotPassword);
+router.post("/forgot/otpverify", verifyOTP);
+router.post("/forgot/changepassword", changePassword);
 export default router;
