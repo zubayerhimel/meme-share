@@ -1,4 +1,4 @@
-import { CardMedia, Container, Grid, Typography } from "@material-ui/core";
+import { CardMedia, Container, Grid, ListItem, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 function SingleMeme() {
   const classes = useStyles();
   const [info, setInfo] = useState([]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     let url = window.location.pathname;
@@ -22,6 +23,8 @@ function SingleMeme() {
       .then((res) => {
         let data = res.data.data;
         setInfo(data);
+        let commentData = res.data.data.comments;
+        setComments(commentData);
       })
       .catch((err) => {
         console.log(err);
@@ -45,6 +48,22 @@ function SingleMeme() {
             {info.name}
           </Typography>
           <Typography variant="body1">{info.description}</Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <List>
+            {comments.map((comment) => {
+              <ListItem alignItems="flex-start" key={comment._id}>
+                <ListItemText>
+                  <Typography variant="h6"> {comment.user.name} </Typography>
+                  <Typography component="span" variant="body2">
+                    {comment.text}
+                  </Typography>
+                </ListItemText>
+              </ListItem>;
+            })}
+          </List>
         </Grid>
       </Grid>
     </Container>
