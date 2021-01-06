@@ -19,7 +19,7 @@ export default function ListOfMeme() {
   // states
   const [posts, setPosts] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     axios.get("/api/posts").then((res) => {
       console.log(res.data);
       setPosts(res.data.data);

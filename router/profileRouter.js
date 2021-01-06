@@ -1,5 +1,5 @@
 import express from "express";
-import { getProfile } from "../controllers/profileController";
+import { getProfile, forgotPassword, verifyOTP, changePassword } from "../controllers/profileController";
 
 const router = express.Router();
 

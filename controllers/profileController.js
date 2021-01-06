@@ -1,6 +1,7 @@
 import catchAsync from "../util/catchAsync";
 import AppError from "../util/appError";
 import User from "../models/userModel";
+import sendTwilioOTP from "../config/twiliosms";
 
 const sendData = (res, data) => {
   res.status(200).json({
@@ -30,14 +31,14 @@ const getProfile = catchAsync(async (req, res, next) => {
 export const forgotPassword = catchAsync(async (req, res, next) => {
   res.setHeader("Content-type", "application/json");
 
-  const { email } = req.body;
+  const { number, email } = req.body;
 
   if (!email) return next(new AppError("Provide your email.", 400));
 
   const userInfo = await User.findOne({ email });
   if (!userInfo) return next(new AppError("user not found.", 400));
 
-  const otpInfo = await sendEmailOTP(email);
+  const otpInfo = await sendTwilioOTP(number);
 
   // save OTP information
   await User.findOne(
